@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Street Rod Cart Configurator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+      }
+  
+      .form-container {
+        background-color: #fff;
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+  
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+  
+      label {
+        font-weight: bold;
+        margin-bottom: 8px;
+        display: block;
+        color: #333;
+      }
+  
+      select, input[type="text"], input[type="email"], input[type="tel"], textarea, input[type="color"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: #f9f9f9;
+      }
+  
+      select {
+        cursor: pointer;
+      }
+  
+      textarea {
+        resize: vertical;
+      }
+  
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 20px;
+        transition: background-color 0.3s ease;
+      }
+  
+      button:hover {
+        background-color: #0056b3;
+      }
+  
+      .custom-select {
+        position: relative;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+  
+      .select-selected {
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        padding: 10px;
+        cursor: pointer;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+  
+      .select-items {
+        position: absolute;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 99;
+        display: none;
+      }
+  
+      .select-items div {
+        padding: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+  
+      .select-items div:hover {
+        background-color: #ddd;
+      }
+  
+      .select-items i {
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+      }
+  
+      .select-selected:after {
+        content: "\25BC";
+        position: absolute;
+        right: 10px;
+        top: 15px;
+      }
+  
+      .select-selected.select-arrow-active:after {
+        content: "\25B2";
+      }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .form-container {
+      background-color: #fff;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      color: #333;
+    }
+
+    select, input[type="text"], input[type="email"], input[type="tel"], textarea, input[type="color"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: #f9f9f9;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .checkbox-container label {
+      margin-left: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    input[type="color"] {
+      margin-top: 20px;
+    }
+
+    .canvas-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    canvas {
+      width: 100%;
+      height: 300px;
+      background-color: #eee;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Street Rod Cart Configurator</h1>
+    <form action="/submit" method="post">
+      <label for="make">Vehicle Make:</label>
+      <select id="make" name="make" required>
+        <option value="vintage">Vintage</option>
+        <option value="lux">Lux</option>
+        <option value="grit">Grit</option>
+      </select>
+
+      <label for="vintage_model">Vintage Model:</label>
+      <select id="vintage_model" name="vintage_model" required>
+        <option value="le29">LE29</option>
+        <option value="le32">LE32</option>
+        <option value="le34">LE34</option>
+        <option value="le35">LE35</option>
+        <option value="le37">LE37</option>
+        <option value="le40">LE40</option>
+        <option value="unsure">I'm not sure yet...</option>
+      </select>
+
+      <label for="body_style">Body Style:</label>
+      <select id="body_style" name="body_style" required>
+        <option value="2_passenger_roadster">2 Passenger Topless Roadster</option>
+        <option value="convertible_coupe">2 Passenger Convertible Coupe</option>
+        <option value="convertible">2/4 Passenger Convertible</option>
+        <option value="convertible_truck">2/4 Passenger Convertible Truck</option>
+        <option value="beverage_car">2 or 4 Passenger Beverage Car</option>
+        <option value="concession_car">1 or 2 Passenger Concession Car</option>
+        <option value="hard_top">2/4 Passenger Hard Top</option>
+        <option value="canopy_top">2/4 Passenger Canopy Top</option>
+        <option value="specialty_vehicle">2/4 Passenger Specialty Vehicle</option>
+        <option value="phaeton">4 Passenger Phaeton</option>
+        <option value="limo">6-8 Passenger Limo / Shuttle</option>
+        <option value="unsure">I'm not sure yet...</option>
+      </select>
+
+      <label for="vintage_paint">Vintage Paint:</label>
+      <select id="vintage_paint" name="vintage_paint" required>
+        <option value="single_tone_warm">Single Tone Warm Color Scheme</option>
+        <option value="multi_tone_warm">Multi Tone Warm Color Scheme</option>
+        <option value="single_tone_cool">Single Tone Cool Color Scheme</option>
+        <option value="multi_tone_cool">Multi Tone Cool Color Scheme</option>
+        <option value="custom_flames">Custom Flames Package</option>
+        <option value="custom_decals">Custom Decals Package</option>
+        <option value="unsure">I'm not sure yet...</option>
+      </select>
+     <!-- <input type="color" id="colorPicker" value="#ffffff"> -->
+     <input type="color" id="colorPicker" value="#ffffff">
+        <canvas id="webglCanvas"></canvas>
+        <script src="main.js"></script>
+
+      <label for="vintage_upholstery">Vintage Upholstery:</label>
+      <select id="vintage_upholstery" name="vintage_upholstery" required>
+        <option value="neutral">Neutral color or leather tone</option>
+        <option value="matching">Color scheme to match vehicle</option>
+        <option value="unsure">I'm not sure yet...</option>
+      </select>
+
+      <label for="optional_features_1">Optional Features 1 (select multiple):</label>
+      <select id="optional_features_1" name="optional_features_1[]" multiple>
+        <option value="two_speed_wiper">Two-speed Front Windshield Wiper (Not Available with Poly Windshield)</option>
+        <option value="headlight_visors">Headlight Visors (NA on LE37 or LE40)</option>
+        <option value="billet_shifter">Billet Aluminum Shifter</option>
+        <option value="oogah_horn">Oogah Horn</option>
+        <option value="wolf_whistle_horn">Wolf Whistle Horn</option>
+        <option value="lockable_drawer">Lockable Under-dash Storage Drawer</option>
+        <option value="tailpipe_simulators">Tailpipe Simulators</option>
+        <option value="custom_seat_embroidery">Custom Seat Embroidery</option>
+        <option value="under_body_led">Under Body LED Lights with Color Choice</option>
+        <option value="under_dash_led">Under Dash LED Lights with Color Choice</option>
+        <option value="custom_floor_mats">Custom Carpet Floor Mats</option>
+      </select>
+
+      <label for="optional_features_2">Optional Features 2 (select multiple):</label>
+      <select id="optional_features_2" name="optional_features_2[]" multiple>
+        <option value="retractable_seat_belts">Retractable Type 1 Seat Belts</option>
+        <option value="led_speedometer">LED Speedometer with Trip Odometer</option>
+        <option value="safety_glass_windshield">AS1 Automotive Safety Glass Windshield</option>
+        <option value="rear_view_camera">Rear-view Mirror with Integrated 4.3” Video Display & Wide-Angle Backup Camera</option>
+        <option value="two_speed_wiper_2">Two-speed Front Windshield Wiper (Not Available with Poly Windshield)</option>
+        <option value="led_back_up_lights">LED Back-up Lights and License Plate Light</option>
+        <option value="reflector_tape">SAE-A DOT Reflex Reflector Tape Rear-side and Rear-body</option>
+      </select>
+
+       <!-- Optional Features 1 with icons -->
+    <div class="custom-select">
+        <div class="select-selected">Select Optional Features 1</div>
+        <div class="select-items">
+          <div data-value="two_speed_wiper">
+            <i class="fas fa-fan"></i> Two-speed Front Windshield Wiper
+          </div>
+          <div data-value="headlight_visors">
+            <i class="fas fa-lightbulb"></i> Headlight Visors
+          </div>
+          <div data-value="billet_shifter">
+            <i class="fas fa-car"></i> Billet Aluminum Shifter
+          </div>
+          <div data-value="oogah_horn">
+            <i class="fas fa-bell"></i> Oogah Horn
+          </div>
+          <div data-value="wolf_whistle_horn">
+            <i class="fas fa-volume-up"></i> Wolf Whistle Horn
+          </div>
+          <!-- Add more options as needed -->
+        </div>
+      </div>
+  
+      <!-- Optional Features 2 with icons -->
+      <div class="custom-select">
+        <div class="select-selected">Select Optional Features 2</div>
+        <div class="select-items">
+          <div data-value="retractable_seat_belts">
+            <i class="fas fa-seatbelt"></i> Retractable Seat Belts
+          </div>
+          <div data-value="led_speedometer">
+            <i class="fas fa-tachometer-alt"></i> LED Speedometer with Trip Odometer
+          </div>
+          <div data-value="safety_glass_windshield">
+            <i class="fas fa-glasses"></i> AS1 Automotive Safety Glass Windshield
+          </div>
+          <div data-value="rear_view_camera">
+            <i class="fas fa-camera"></i> Rear-view Mirror with Integrated Video Display & Backup Camera
+          </div>
+          <!-- Add more options as needed -->
+        </div>
+      </div>
+
+      <label for="first_name">First Name:</label>
+      <input type="text" id="first_name" name="first_name" required>
+
+      <label for="last_name">Last Name:</label>
+      <input type="text" id="last_name" name="last_name" required>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="interest_1" name="interest" value="golf_community">
+        <label for="interest_1">I live in a community where golf cars are common.</label>
+      </div>
+
+      <label for="zip">Zip Code:</label>
+      <input type="text" id="zip" name="zip" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="Don't worry - no junk mail from us." required>
+
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" name="phone" placeholder="### ### ####" required>
+
+      <label for="how_did_you_hear">How did you hear about Streetrod?</label>
+      <select id="how_did_you_hear" name="how_did_you_hear">
+        <option value="social_media">Social Media</option>
+        <option value="google_search">Google Search</option>
+        <option value="internet">Internet</option>
+        <option value="magazine">Magazine</option>
+        <option value="word_of_mouth">Word of Mouth</option>
+        <option value="email">Email</option>
+        <option value="whit_watson">Making the Cut with Whit Watson</option>
+        <option value="amazon_prime">Amazon Prime Video</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="comments">Comments:</label>
+      <textarea id="comments" name="comments" rows="4" cols="50"></textarea>
+
+      <button type="submit">Submit</button>
+
+      
+    </form>
+  </div>
+
+  <script>
+    // Handle custom dropdown functionality
+    document.querySelectorAll('.select-selected').forEach(selected => {
+      selected.addEventListener('click', function () {
+        this.nextElementSibling.classList.toggle('show');
+        this.classList.toggle('select-arrow-active');
+      });
+    });
+
+    document.querySelectorAll('.select-items div').forEach(item => {
+      item.addEventListener('click', function () {
+        const selectedText = this.innerHTML;
+        const selectedContainer = this.parentElement.previousElementSibling;
+        selectedContainer.innerHTML = selectedText;
+        this.parentElement.classList.remove('show');
+        selectedContainer.classList.remove('select-arrow-active');
+      });
+    });
+
+    // Close dropdown when clicked outside
+    document.addEventListener('click', function (event) {
+      if (!event.target.matches('.select-selected')) {
+        document.querySelectorAll('.select-items').forEach(items => {
+          items.classList.remove('show');
+        });
+        document.querySelectorAll('.select-selected').forEach(selected => {
+          selected.classList.remove('select-arrow-active');
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
